@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000";
+const API_URL = "https://backend-gail.onrender.com";
 let token = localStorage.getItem("token");
 let username = localStorage.getItem("username");
 
