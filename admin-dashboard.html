@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Panel Admin – Fruty Luky</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Panel de Administración – Fruty Luky</h1>
+  <section id="loginAdmin">
+    <input type="text" id="adminUser" placeholder="Usuario admin">
+    <input type="password" id="adminPass" placeholder="Contraseña">
+    <button id="adminLoginBtn">Entrar</button>
+  </section>
+
+  <section id="adminPanel" class="hidden">
+    <h2>Estadísticas</h2>
+    <canvas id="statsChart" width="300" height="150"></canvas>
+    <h2>Control de RTP</h2>
+    <input type="number" id="nuevoRTP" min="1" max="90" value="25">
+    <button id="actualizarRTP">Actualizar RTP</button>
+  </section>
+
+  <script>
+  const API_URL = "http://localhost:3000";
+  let adminOk = false;
+  const loginSec=document.getElementById("loginAdmin");
+  const panelSec=document.getElementById("adminPanel");
+
+  async function adminLogin(){
+    const usuario=document.getElementById("adminUser").value;
+    const password=document.getElementById("adminPass").value;
+    const res=await fetch(`${API_URL}/admin/login`,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({usuario,password})
+    });
+    if(!res.ok)return alert(await res.text());
+    adminOk=true;
+    loginSec.classList.add("hidden");
+    panelSec.classList.remove("hidden");
+    cargarDatos();
+  }
+
+  async function cargarDatos(){
+    const res=await fetch(`${API_URL}/admin/estadisticas`);
+    const data=await res.json();
+    const ctx=document.getElementById("statsChart");
+    new Chart(ctx,{type:"bar",
+      data:{labels:["Jugadas","Apostado","Pagado","Ganancia"],
+      datasets:[{label:"Estadísticas",data:[
+        data.totalJugadas||0,
+        data.totalApuestas||0,
+        data.totalPremios||0,
+        data.gananciasSistema||0],
+      backgroundColor:["#ffce56","#36a2eb","#ff6384","#4bc0c0"]}]}
+    });
+  }
+
+  async function actualizarRTP(){
+    const nuevoRTP=document.getElementById("nuevoRTP").value;
+    const res=await fetch(`${API_URL}/admin/rtp`,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({nuevoRTP})
+    });
+    alert(await res.text());
+  }
+
+  document.getElementById("adminLoginBtn").onclick=adminLogin;
+  document.getElementById("actualizarRTP").onclick=actualizarRTP;
+  </script>
+</body>
+</html>

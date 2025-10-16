@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎰 Fruty Luky</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🎰 Fruty Luky</h1>
+    <div id="userInfo">
+      <span id="usuario"></span>
+      <span>Créditos: <b id="saldo">0</b></span>
+      <button id="logoutBtn">Salir</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="loginSection" class="panel">
+      <h2>Iniciar sesión</h2>
+      <input type="text" id="loginUser" placeholder="Usuario" />
+      <input type="password" id="loginPass" placeholder="Contraseña" />
+      <button id="loginBtn">Entrar</button>
+      <p>¿Nuevo jugador? <a id="toRegister" href="#">Regístrate</a></p>
+    </section>
+
+    <section id="registerSection" class="panel hidden">
+      <h2>Registro</h2>
+      <input type="text" id="regUser" placeholder="Usuario" />
+      <input type="password" id="regPass" placeholder="Contraseña" />
+      <button id="regBtn">Crear cuenta</button>
+      <p><a id="toLogin" href="#">Volver a inicio</a></p>
+    </section>
+
+    <section id="gameSection" class="panel hidden">
+      <div id="slot">
+        <div class="reel" id="r1">🍒</div>
+        <div class="reel" id="r2">🍋</div>
+        <div class="reel" id="r3">🍉</div>
+      </div>
+      <div class="controls">
+        <input type="number" id="apuesta" min="10" max="500" value="20" />
+        <button id="spinBtn">Girar 🎡</button>
+      </div>
+      <p id="resultado"></p>
+    </section>
+  </main>
+
+  <audio id="spinSound" src="sounds/spin.mp3"></audio>
+  <audio id="winSound" src="sounds/win.mp3"></audio>
+  <audio id="loseSound" src="sounds/lose.mp3"></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
